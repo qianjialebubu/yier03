@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bubu.mapper.YierMapper">
+    <resultMap id="YierResultMap" type="com.bubu.pojo.Yier">
+        <result property="friendName" column="friend_name" />
+        <result property="schoolName" column="school_name" />
+    </resultMap>
+    <delete id="deleteByIds">
+        delete from tb_yier where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectByPageAndCondition" resultMap="YierResultMap">
+        select *
+        from tb_yier
+        <where>
+            <if test="yier.friendName != null and yier.friendName != '' ">
+                and  friend_name like #{yier.friendName}
+            </if>
+
+            <if test="yier.schoolName != null and yier.schoolName != '' ">
+                and  school_name like #{yier.schoolName}
+            </if>
+
+            <if test="yier.status != null">
+                and  status = #{yier.status}
+            </if>
+
+        </where>
+
+        limit #{begin} , #{size}
+
+    </select>
+    <select id="selectTotalCountByCondition" resultType="java.lang.Integer">
+        select count(*) from tb_yier
+        <where>
+            <if test="friendName!=null and friendName!=''">
+                and friend_name like #{friendName}
+            </if>
+            <if test="schoolName!=null and schoolName!=''">
+                and school_name like #{schoolName}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+</mapper>

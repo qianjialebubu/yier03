@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <input v-model="username">
+    {{username}}
+    <br>
+    <a v-bind:href="url">点击一下</a><br>
+    <a :href="url">点击一下</a><br>
+    <input v-model="url">
+    {{url}}>
+    <br>
+    <input type="button" value="按钮" v-on:click="show()">
+    <input type="button" value="按钮" @click="show1()">
+    <br>
+    <input v-model="count">
+    <div v-if="count==3">div1</div>
+    <div v-else-if="count==4">div2</div>
+    <div v-else>div3</div>
+    <br>
+    <hr>
+    <div v-show="count==3">v-show</div>
+    <hr>
+    <div v-for="addr in addrs">
+        {{addr}}<br>
+    </div>
+    <hr>
+    <div v-for="(addr,i) in addrs">
+        {{i+1}}--{{addr}}
+    </div>
+
+</div>
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        mounted(){
+            alert("挂载完成，执行异步请求");
+        },
+        data(){
+            return{
+                username:"",
+                url:"https://baidu.com",
+                count:3,
+                addrs:["北京","上海","西安"]
+            }
+        },
+
+        methods:{
+            show(){
+                alert("我被点击了");
+            },
+            show1(){
+                alert("我又被点击了");
+            }
+        }
+    });
+</script>
+</body>
+</html>

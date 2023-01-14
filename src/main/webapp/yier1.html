@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一二及其小伙伴</title>
+</head>
+<body>
+<div id="app">
+<a href="addYier.html"><input type="button" value="新增"></a><br>
+
+<!--    <a href="addYier.html">-->
+<!--    <el-row>-->
+<!--        <el-button type="danger">删除按钮</el-button>-->
+<!--    </el-row>-->
+<!--    </a>-->
+
+    <hr>
+    <table id="yierTable" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>学校名称</th>
+            <th>年龄</th>
+            <th>介绍</th>
+            <th>性别</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="(yier,i) in yiers" align="center">
+            <td>{{i+1}}</td>
+            <td>{{yier.friendName}}</td>
+            <td>{{yier.schoolName}}</td>
+            <td>{{yier.age}}</td>
+            <td>{{yier.description}}</td>
+            <td>{{yier.statusStr}}</td>
+            <td><a href="#">修改</a> <a href="#">删除</a></td>
+        </tr>
+
+    </table>
+</div>
+<script src="js/axios-0.18.0.js"></script>
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script>
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                yiers:[]
+            }
+        },
+        mounted(){
+            var _this = this;
+            axios({
+                method:"get",
+                url:"http://localhost:8080/yier03/selectAllServlet"
+            }).then(function (resp) {
+                _this.yiers = resp.data;
+            })
+        }
+    })
+</script>
+
+
+</body>
+</html>
