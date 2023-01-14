@@ -17,4 +17,5 @@ public interface YierService {
     void deleteById(int id);
     PageBean<Yier> selectByPage(int currentPage,int pageSize);
     PageBean<Yier> selectByPageAndCondition(int currentPage,int pageSize,Yier yier);
+    void update(Yier yier);
 }

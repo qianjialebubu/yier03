@@ -85,9 +85,6 @@ public class YierServiceImpl implements YierService {
 //        List<Yier> yiers = mapper.selectByPage(begin, size);
         //总的条数
         //加上%%表示模糊查询
-        System.out.println(currentPage);
-        System.out.println(pageSize);
-        System.out.println(yier);
         String friendName = yier.getFriendName();
         if (friendName!=null && friendName.length()>0){
             yier.setFriendName("%"+friendName+"%");
@@ -107,6 +104,16 @@ public class YierServiceImpl implements YierService {
         yierPageBean.setRows(yiers);
         sqlSession.close();
         return yierPageBean;
+
+    }
+
+    @Override
+    public void update(Yier yier) {
+        SqlSession sqlSession = factory.openSession();
+        YierMapper mapper = sqlSession.getMapper(YierMapper.class);
+        mapper.update(yier);
+        sqlSession.commit();
+        sqlSession.close();
 
     }
 

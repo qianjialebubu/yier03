@@ -101,5 +101,22 @@ public class YierServlet extends BaseServlet{
 
     }
 
+    public void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // solve garbled char problem first
+        req.setCharacterEncoding("utf-8");
+        //get params in JSON from req
+        BufferedReader reader = req.getReader();
+        String params = reader.readLine();//no matter how long, it is one line
+        //get a brand ob from json
+        Yier yier = JSON.parseObject(params, Yier.class);
+        //invoke update method put brand in ()
+        yierService.update(yier);
+
+        //till now no problem, resp a bingo
+        resp.getWriter().write("success");
+
+    }
+
+
 
 }

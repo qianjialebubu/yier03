@@ -20,7 +20,7 @@
             <el-select v-model="yier.status" placeholder="">
                 <el-option label="男" value="0"></el-option>
                 <el-option label="女" value="1"></el-option>
-
+<!--                <el-option label="" value=""></el-option>-->
             </el-select>
         </el-form-item>
         <el-form-item label="姓名">
@@ -31,6 +31,7 @@
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button type="info" @click="clear">清空</el-button>
         </el-form-item>
     </el-form>
     <el-row>
@@ -133,7 +134,7 @@
                     <el-input v-model="yierEdition.friendName"></el-input>
                 </el-form-item>
                 <el-form-item label="学校">
-                    <el-input v-model="yierEdition.schoolname"></el-input>
+                    <el-input v-model="yierEdition.schoolName"></el-input>
                 </el-form-item>
                 <el-form-item label="年龄">
                     <el-input v-model="yierEdition.age"></el-input>
@@ -170,11 +171,6 @@
 <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
 <script>
     new Vue({
-        el:"#app",
-        mounted(){
-            //页面加载完成后的操作
-           this.selectall();
-        },
         methods: {
             open2() {
                 this.$message({
@@ -218,6 +214,29 @@
             onSubmit() {
                 this.selectall();
             },
+            clear(){
+                // axios({
+                //     method: 'post',
+                //     // url:"http://localhost:8080/yier03/yier/selectAll"
+                //     // url:"http://localhost:8080/yier03/yier/selectByPage?currentPage=1&pageSize=5"
+                //     url:"http://localhost:8080/yier03/yier/selectByPage?currentPage="+this.currentPage+"&pageSize="+this.pageSize,
+                //     // url:"http://localhost:8080/yier03/yier/selectByPageAndCondition?currentPage="+this.currentPage+"&pageSize="+this.pageSize,
+                //     data:this.yier
+                // }).then(resp =>{
+                //     // _this.tableData=resp.data;
+                //     this.tableData=resp.data.rows;
+                //     this.totalCount=resp.data.totalCount;
+                //     this.yier.friendName='';
+                //     this.yier.schoolName='';
+                //     this.yier.status='';
+                //
+                // })
+                this.yier.friendName='';
+                this.yier.schoolName='';
+                this.yier.status='';
+                this.selectall();
+            },
+
             addyier(){
                 var _this=this;
                 // console.log(this.yier)
@@ -347,15 +366,16 @@
                 axios({
                     method: "post",
                     url: "http://localhost:8080/yier03/yier/update",
-                    data: this.brandEdition
+                    data: this.yierEdition
                 }).then(resp =>  {
-                    if (resp.data === "bingo") {
+                    if (resp.data === "success") {
                         this.editDialogVisible = false;
-                        this.queryAll();
+                        this.selectall();
                         this.$message({
-                            message: 'Congrats, edition succeed.',
+                            message: '修改成功',
                             type: 'success'
                         });
+                        console.log(this.yierEdition)
                     }
                 })
             },
@@ -363,6 +383,10 @@
             cancelEdit() {
                 this.editDialogVisible = false;
                 this.selectall();
+                this.$message({
+                    message: '取消修改',
+                    type:'warning'
+                });
             },
             //复选框选定的方法
             handleSelectionChange(val) {
@@ -371,12 +395,18 @@
             }
 
         },
+        el:"#app",
+        mounted(){
+            //页面加载完成后的操作
+           this.selectall();
+        },
         data() {
             return {
                 totalCount:100,
                 currentPage: 1,
                 pageSize:5,
                 dialogVisible: false,
+                editDialogVisible: false,
                 yier: {
                     status: '',
                     friendName: '',

@@ -37,4 +37,7 @@ public interface YierMapper {
 
     int selectTotalCountByCondition(Yier yier);
 
+    @Update("update tb_yier set friend_name = #{friendName}, school_name = #{schoolName},age = #{age},description = #{description} where id = #{id}")
+    void update(Yier yier);
+
 }
